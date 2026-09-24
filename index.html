@@ -12,159 +12,849 @@
 <meta name="theme-color" content="#0a0905">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Bricolage+Grotesque:wght@600;800&family=Hind:wght@400;500;600&family=Noto+Sans+Telugu:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Noto+Sans+Telugu:wght@400;600&display=swap" rel="stylesheet">
 
 <style>
 :root{
-  box-sizing:border-box;
-  padding-top:env(safe-area-inset-top,0px);
-  padding-bottom:env(safe-area-inset-bottom,0px);
-  --bg:#f2f5ee;
-  --surface:#ffffff;
-  --ink:#1d2a1f;
-  --muted:#66756a;
-  --line:#dde5d6;
+  --bg:#070705;
+  --surface:#121411;
+  --surface-glass:rgba(18, 20, 17, 0.85);
+  --ink:#f4f7f2;
+  --muted:#9aa398;
+  --line:rgba(212, 175, 55, 0.2);
   --brand:#1b7a3a;
+  --brand-hover:#229645;
   --brand-ink:#ffffff;
   --gold:#d4af37;
-  --gold-light:#f9e596;
-  --tile:#eef2e8;
-  --off:#1b7a3a;
-  --head:#0a0905;
+  --gold-gradient:linear-gradient(135deg, #f9e596 0%, #d4af37 50%, #aa8217 100%);
+  --shadow:0 12px 40px rgba(0,0,0,0.6);
+  --radius:16px;
 }
 
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    --bg:#0f1511;
-    --surface:#18211b;
-    --ink:#eaf1e6;
-    --muted:#9db0a2;
-    --line:#2a382e;
-    --brand:#3fae5f;
-    --brand-ink:#08130b;
-    --gold:#e0b03c;
-    --gold-light:#faea9f;
-    --tile:#223027;
-    --off:#5cc46c;
-    --head:#080704;
+*,*::before,*::after{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:'Plus Jakarta Sans','Noto Sans Telugu',system-ui,sans-serif;
+  font-size:16px;
+  line-height:1.6;
+  padding-bottom:110px;
+  background-image: 
+    radial-gradient(circle at 10% 10%, rgba(27, 122, 58, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 90% 90%, rgba(212, 175, 55, 0.06) 0%, transparent 40%);
+  background-attachment: fixed;
+}
+
+h1,h2,h3{
+  margin:0;
+  line-height:1.2;
+}
+
+button,input,select,textarea{
+  font:inherit;
+  color:inherit;
+}
+
+/* =========================
+   HEADER
+========================= */
+header{
+  background:linear-gradient(to bottom, rgba(7,7,5,0.95), rgba(7,7,5,0.85));
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom:1px solid var(--line);
+  padding:12px 16px;
+  text-align:center;
+  position:sticky;
+  top:0;
+  z-index:100;
+}
+
+.header-banner{
+  display:block;
+  margin:0 auto;
+  width:100%;
+  max-width:700px;
+  height:auto;
+  max-height:130px;
+  border-radius:10px;
+  object-fit:contain;
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.5));
+}
+
+.pwa-install{
+  display:none;
+  margin:8px auto 0;
+  border:1px solid var(--gold);
+  background:var(--gold-gradient);
+  color:#070705;
+  border-radius:999px;
+  padding:6px 18px;
+  font-size:0.85rem;
+  font-weight:700;
+  cursor:pointer;
+  box-shadow:0 4px 15px rgba(212, 175, 55, 0.25);
+  transition: transform 0.2s ease;
+}
+
+.pwa-install.show{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+}
+
+.pwa-install:hover{
+  transform: translateY(-2px);
+}
+
+/* =========================
+   ROLE SELECTION LANDING
+========================= */
+.role-selection{
+  max-width:860px;
+  margin:30px auto;
+  padding:24px;
+}
+
+.top-install{
+  text-align:center;
+  margin-bottom:24px;
+  padding-bottom:16px;
+  border-bottom:1px solid var(--line);
+}
+
+.install-app-btn{
+  display:none;
+  border:0;
+  background:var(--gold-gradient);
+  color:#070705;
+  padding:10px 24px;
+  border-radius:25px;
+  font-size:14px;
+  font-weight:700;
+  cursor:pointer;
+  box-shadow:0 4px 15px rgba(212,175,55,0.3);
+  transition:all .2s ease;
+}
+
+.install-app-btn:hover{
+  transform:translateY(-2px);
+}
+
+.brand-intro{
+  text-align:center;
+  margin-bottom:30px;
+}
+
+.brand-mark{
+  width:72px;
+  height:72px;
+  margin:0 auto 14px;
+  border-radius:20px;
+  background:var(--brand);
+  color:#fff;
+  display:grid;
+  place-items:center;
+  font-family:'Cinzel',serif;
+  font-size:24px;
+  font-weight:900;
+  box-shadow:0 8px 25px rgba(27,122,58,0.3);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.brand-name{
+  font-size:26px;
+  font-weight:900;
+  color:var(--ink);
+  font-family:'Cinzel',serif;
+}
+
+.brand-sub{
+  color:var(--gold);
+  font-weight:700;
+  font-size:.95rem;
+  margin-top:4px;
+  letter-spacing:1px;
+}
+
+.brand-intro h1{
+  margin-top:16px;
+  font-size:1.6rem;
+  font-weight:800;
+  color:var(--ink);
+}
+
+.brand-intro p{
+  color:var(--muted);
+  margin:8px auto 0;
+  max-width:580px;
+  font-size:0.95rem;
+}
+
+.role-cards{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+}
+
+.role-card{
+  position:relative;
+  text-align:left;
+  border:1px solid var(--line);
+  background:var(--surface);
+  border-radius:var(--radius);
+  padding:24px 20px;
+  cursor:pointer;
+  transition:all .25s cubic-bezier(0.16, 1, 0.3, 1);
+  min-height:200px;
+  color:var(--ink);
+  box-shadow: var(--shadow);
+}
+
+.role-card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 14px 35px rgba(0,0,0,0.7);
+  border-color:var(--gold);
+}
+
+.role-icon{
+  width:52px;
+  height:52px;
+  border-radius:14px;
+  background:rgba(212, 175, 55, 0.08);
+  border: 1px solid var(--line);
+  display:grid;
+  place-items:center;
+  font-size:24px;
+  margin-bottom:16px;
+}
+
+.role-card-title{
+  font-size:1.1rem;
+  font-weight:800;
+  font-family:'Cinzel',serif;
+  color:var(--gold);
+}
+
+.role-card-text{
+  color:var(--muted);
+  font-size:0.86rem;
+  margin-top:6px;
+  line-height:1.4;
+}
+
+.role-selection.hidden{
+  display:none;
+}
+
+@media(max-width:768px){
+  .role-selection{padding:16px 12px;}
+  .brand-cards{grid-template-columns:1fr;}
+  .role-cards{grid-template-columns:1fr;gap:12px;}
+  .role-card{min-height:120px;padding:18px 18px 18px 84px;}
+  .role-icon{position:absolute;left:18px;top:20px;margin:0;}
+}
+
+/* =========================
+   MAIN CATALOG CONTAINER
+========================= */
+main{
+  max-width:760px;
+  margin:0 auto;
+  padding:24px 16px 12px;
+  display:none;
+}
+
+main.active{
+  display:block;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn{
+  from{ opacity: 0; transform: translateY(6px); }
+  to{ opacity: 1; transform: translateY(0); }
+}
+
+.notice{
+  background:var(--surface-glass);
+  backdrop-filter: blur(8px);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:14px 18px;
+  font-size:.92rem;
+  color:var(--muted);
+  margin-bottom:16px;
+  box-shadow: var(--shadow);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.notice b{
+  color: var(--gold);
+  font-family: 'Cinzel', serif;
+}
+
+.list{
+  display:grid;
+  gap:16px;
+}
+
+.card{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:14px;
+  display:flex;
+  gap:16px;
+  align-items:center;
+  box-shadow: var(--shadow);
+  transition: border-color 0.2s ease;
+}
+
+.card:hover{
+  border-color: rgba(212, 175, 55, 0.4);
+}
+
+.tile{
+  flex:0 0 110px;
+  height:120px;
+  border-radius:12px;
+  background:#0e110f;
+  display:grid;
+  place-items:center;
+  overflow:hidden;
+  border: 1px solid rgba(255,255,255,0.05);
+}
+
+.tile img{
+  max-width:100%;
+  max-height:100%;
+  object-fit:cover;
+  display:block;
+  border-radius:8px;
+}
+
+.info{
+  flex:1;
+  min-width:0;
+}
+
+.info h3{
+  font-size:1.1rem;
+  font-weight:700;
+  font-family:'Cinzel', serif;
+  color:var(--ink);
+}
+
+.te{
+  font-family:'Noto Sans Telugu',sans-serif;
+  color:var(--gold);
+  font-size:.92rem;
+  opacity:0.9;
+  margin-bottom:2px;
+}
+
+.sub{
+  color:var(--muted);
+  font-size:.84rem;
+  margin-bottom:6px;
+}
+
+.pr{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:baseline;
+  gap:8px;
+  margin:4px 0 10px;
+}
+
+.pr b{
+  font-size:1.2rem;
+  font-family:'Cinzel', serif;
+}
+
+.pr s{
+  color:var(--muted);
+  font-size:.88rem;
+}
+
+.pr em{
+  font-style:normal;
+  color:#4ade80;
+  background:rgba(74, 222, 128, 0.1);
+  padding:2px 8px;
+  border-radius:6px;
+  font-weight:600;
+  font-size:.78rem;
+}
+
+.add{
+  border:0;
+  background:var(--brand);
+  color:var(--brand-ink);
+  border-radius:999px;
+  padding:9px 24px;
+  font-weight:600;
+  cursor:pointer;
+  box-shadow: 0 4px 15px rgba(27,122,58,0.3);
+  transition: background 0.2s ease;
+}
+
+.add:hover{
+  background: var(--brand-hover);
+}
+
+.step{
+  display:inline-flex;
+  align-items:center;
+  border:1.5px solid var(--brand);
+  border-radius:999px;
+  overflow:hidden;
+  background: rgba(27, 122, 58, 0.05);
+}
+
+.step button{
+  width:36px;
+  height:36px;
+  border:0;
+  background:transparent;
+  color:#4ade80;
+  font-size:1.25rem;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.step span{
+  min-width:30px;
+  text-align:center;
+  font-weight:700;
+}
+
+:focus-visible{
+  outline:3px solid var(--gold);
+  outline-offset:2px;
+}
+
+/* =========================
+   CART BAR
+========================= */
+.bar{
+  position:fixed;
+  left:0;
+  right:0;
+  bottom:0;
+  padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px));
+  background:rgba(18, 20, 17, 0.92);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-top:1px solid var(--line);
+  display:none;
+  z-index:90;
+}
+
+.bar.on{
+  display:block;
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideUp{
+  from{ transform: translateY(100%); opacity: 0; }
+  to{ transform: translateY(0); opacity: 1; }
+}
+
+.bar button{
+  width:100%;
+  max-width:760px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin:0 auto;
+  border:0;
+  background:var(--brand);
+  color:var(--brand-ink);
+  border-radius:14px;
+  padding:15px 20px;
+  font-weight:700;
+  cursor:pointer;
+  box-shadow: 0 8px 25px rgba(27,122,58,0.4);
+}
+
+.bar button:hover{
+  background: var(--brand-hover);
+}
+
+/* =========================
+   SHEETS & CHECKOUT
+========================= */
+.sheet{
+  position:fixed;
+  inset:0;
+  background:var(--bg);
+  z-index:200;
+  overflow-y:auto;
+  display:none;
+  padding-top:env(safe-area-inset-top,0px);
+}
+
+.sheet.on{
+  display:block;
+  animation: fadeIn 0.25s ease;
+}
+
+.sheet .in{
+  max-width:720px;
+  margin:0 auto;
+  padding:24px 20px calc(50px + env(safe-area-inset-bottom,0px));
+}
+
+.back{
+  border:0;
+  background:none;
+  color:var(--gold);
+  font-weight:600;
+  padding:6px 0;
+  cursor:pointer;
+  font-size:0.95rem;
+}
+
+h2{
+  font-size:1.4rem;
+  font-family:'Cinzel', serif;
+  color:var(--gold);
+  margin:10px 0 14px;
+}
+
+.line{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  padding:9px 0;
+  border-bottom:1px dashed rgba(255,255,255,0.1);
+}
+
+.line.save{
+  color:#4ade80;
+}
+
+.total{
+  font-weight:700;
+  font-size:1.15rem;
+  border-bottom:0;
+  font-family:'Cinzel', serif;
+  color:var(--ink);
+  margin-top:4px;
+}
+
+/* =========================
+   FORMS
+========================= */
+label{
+  display:block;
+  font-weight:600;
+  font-size:.88rem;
+  color:var(--muted);
+  margin:14px 0 4px;
+}
+
+input,select,textarea{
+  width:100%;
+  padding:12px 14px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:var(--surface);
+  color:var(--ink);
+  font-size:1rem;
+  transition: border-color 0.2s ease;
+}
+
+select:focus,input:focus,textarea:focus{
+  border-color:var(--gold);
+  outline:none;
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.15);
+}
+
+.row2{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.pay{
+  display:grid;
+  gap:8px;
+  margin-top:6px;
+}
+
+.pay label{
+  display:flex;
+  align-items:flex-start;
+  gap:12px;
+  margin:0;
+  padding:14px;
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  background:var(--surface);
+  font-weight:500;
+  cursor:pointer;
+}
+
+.pay input{
+  width:auto;
+  margin-top:4px;
+}
+
+.pay small{
+  display:block;
+  color:var(--muted);
+  font-weight:400;
+  font-size:0.84rem;
+  margin-top:4px;
+}
+
+.pay-tag{
+  display:inline-block;
+  background:var(--brand);
+  color:#fff;
+  padding:2px 8px;
+  border-radius:6px;
+  font-size:.72rem;
+  font-weight:700;
+  margin-left:6px;
+}
+
+.pay-tag.upi{
+  background:#2563eb;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+.cta{
+  display:block;
+  width:100%;
+  text-align:center;
+  text-decoration:none;
+  border:0;
+  border-radius:14px;
+  padding:15px;
+  font-weight:700;
+  cursor:pointer;
+  margin-top:16px;
+  font-size:1.02rem;
+  box-shadow:0 4px 18px rgba(0,0,0,0.3);
+}
+
+.wa{
+  background:#25d366;
+  color:#fff;
+}
+
+.sec{
+  background:var(--surface);
+  color:var(--gold);
+  border:1px solid var(--gold);
+}
+
+.pri{
+  background:var(--brand);
+  color:var(--brand-ink);
+}
+
+/* =========================
+   CONFIRMATION
+========================= */
+.done{
+  text-align:center;
+  padding-top:30px;
+}
+
+.done .big{
+  font-size:3.5rem;
+  color:#4ade80;
+  margin-bottom:8px;
+}
+
+.small{
+  color:var(--muted);
+  font-size:.9rem;
+}
+
+/* =========================
+   FOOTER
+========================= */
+.foot{
+  background:#040504;
+  border-top:2px solid var(--gold);
+  margin-top:40px;
+  padding:30px 16px calc(110px + env(safe-area-inset-bottom,0px));
+  text-align:center;
+  display:none;
+}
+
+.foot.active{
+  display:block;
+}
+
+.foot img{
+  display:block;
+  margin:0 auto 14px;
+  width:min(440px,85%);
+  height:auto;
+  border-radius:10px;
+  filter: drop-shadow(0 4px 15px rgba(0,0,0,0.5));
+}
+
+.foot p{
+  color:var(--muted);
+  font-size:.88rem;
+  margin:5px 0;
+}
+
+/* =========================
+   SOCIAL MEDIA
+========================= */
+.social-section{
+  margin:20px auto 14px;
+  padding-top:16px;
+  border-top:1px solid var(--line);
+  max-width:520px;
+}
+
+.social-title{
+  color:var(--gold) !important;
+  font-family:'Cinzel',serif;
+  font-size:.95rem !important;
+  font-weight:700;
+  margin:0 0 12px !important;
+}
+
+.social-links{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  align-items:center;
+  gap:10px;
+}
+
+.social-link{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  padding:10px 15px;
+  border:1px solid rgba(212, 175, 55, 0.35);
+  border-radius:999px;
+  color:var(--gold);
+  text-decoration:none;
+  font-size:.82rem;
+  font-weight:600;
+  background:var(--surface);
+  transition:all .2s ease;
+}
+
+.social-link:hover{
+  background:rgba(212, 175, 55, 0.15);
+  border-color:var(--gold);
+  transform:translateY(-1px);
+}
+
+.social-icon{
+  font-size:1rem;
+  line-height:1;
+  font-weight:800;
+}
+
+@media(max-width:520px){
+  .social-links{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+    width:100%;
+  }
+  .social-link{
+    width:100%;
+    min-width:0;
+    padding:9px 8px;
+    justify-content:center;
+  }
+  .social-link:last-child{
+    grid-column:1 / -1;
+    width:50%;
+    justify-self:center;
   }
 }
 
-:root[data-theme="dark"]{
-  --bg:#0f1511;
-  --surface:#18211b;
-  --ink:#eaf1e6;
-  --muted:#9db0a2;
-  --line:#2a382e;
-  --brand:#3fae5f;
-  --brand-ink:#08130b;
-  --gold:#e0b03c;
-  --gold-light:#faea9f;
-  --tile:#223027;
-  --off:#5cc46c;
-  --head:#080704;
+/* =========================
+   ROLE MODAL (Hidden Compatibility)
+========================= */
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.85);
+  backdrop-filter:blur(4px);
+  z-index:20;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+.modal.on{ display:flex; }
+.modal .box{ background:var(--surface); border-radius:18px; padding:26px 22px; max-width:400px; width:100%; text-align:center; box-shadow:0 12px 36px rgba(0,0,0,.35); }
+.modal .box p{ color:var(--muted); margin:0 0 10px; }
+
+.who{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:8px;
 }
 
-html{scroll-padding-top:env(safe-area-inset-top,0px)}
-*,*::before,*::after{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:'Hind','Noto Sans Telugu',system-ui,sans-serif;font-size:16px;line-height:1.5;padding-bottom:96px}
-h1,h2,h3{margin:0;line-height:1.2}
-button,input,select,textarea{font:inherit;color:inherit}
+.link{
+  border:0;
+  background:none;
+  color:var(--gold);
+  font-weight:600;
+  text-decoration:underline;
+  cursor:pointer;
+  padding:0;
+}
 
-header{background:var(--head);border-bottom:3px solid var(--gold);padding:8px 12px;text-align:center;box-shadow:0 4px 18px rgba(0,0,0,.5)}
-.header-banner{display:block;margin:0 auto;width:100%;max-width:900px;height:auto;max-height:220px;border-radius:8px;object-fit:contain}
-.pwa-install{display:none;margin:8px auto 0;border:1px solid var(--gold);background:var(--gold);color:#0a0905;border-radius:999px;padding:7px 16px;font-weight:800;cursor:pointer}
-.pwa-install.show{display:inline-flex;align-items:center;gap:6px}
+.loading{
+  text-align:center;
+  padding:30px 10px;
+  color:var(--muted);
+}
 
-main{max-width:720px;margin:0 auto;padding:16px 16px 8px;display:none}
-main.active{display:block}
-.notice{background:var(--tile);border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:.92rem;color:var(--muted);margin-bottom:14px}
-.list{display:grid;gap:12px}
-.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px;display:flex;gap:12px;align-items:center}
-.tile{flex:0 0 104px;height:120px;border-radius:10px;background:var(--tile);display:grid;place-items:center;overflow:hidden}
-.tile img{max-width:100%;max-height:100%;object-fit:cover;display:block;border-radius:8px}
-.info{flex:1;min-width:0}
-.info h3{font-size:1.05rem;font-weight:800}
-.te{font-family:'Noto Sans Telugu',sans-serif;color:var(--muted);font-size:.95rem}
-.sub{color:var(--muted);font-size:.88rem}
-.pr{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px;margin:4px 0 8px}
-.pr b{font-size:1.15rem}
-.pr s{color:var(--muted);font-size:.92rem}
-.pr em{font-style:normal;color:var(--off);font-weight:600;font-size:.88rem}
-.add{border:0;background:var(--brand);color:var(--brand-ink);border-radius:999px;padding:8px 22px;font-weight:600;cursor:pointer}
-.step{display:inline-flex;align-items:center;border:1.5px solid var(--brand);border-radius:999px;overflow:hidden}
-.step button{width:36px;height:34px;border:0;background:transparent;color:var(--brand);font-size:1.25rem;cursor:pointer}
-.step span{min-width:28px;text-align:center;font-weight:600}
-:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.sheet-status{
+  font-size:.78rem;
+  text-align:center;
+  color:var(--muted);
+  margin-top:12px;
+}
 
-.bar{position:fixed;left:0;right:0;bottom:0;padding:10px 14px calc(10px + env(safe-area-inset-bottom,0px));background:var(--surface);border-top:1px solid var(--line);display:none;z-index:5}
-.bar.on{display:block}
-.bar button{width:100%;max-width:720px;display:flex;justify-content:space-between;margin:0 auto;border:0;background:var(--brand);color:var(--brand-ink);border-radius:12px;padding:14px 18px;font-weight:600;cursor:pointer}
+.manual-location{
+  display:none;
+  margin-top:8px;
+}
 
-.sheet{position:fixed;inset:0;background:var(--bg);z-index:10;overflow-y:auto;display:none;padding-top:env(safe-area-inset-top,0px)}
-.sheet.on{display:block}
-.sheet .in{max-width:720px;margin:0 auto;padding:16px 18px calc(40px + env(safe-area-inset-bottom,0px))}
-.back{border:0;background:none;color:var(--brand);font-weight:600;padding:6px 0;cursor:pointer}
-h2{font-size:1.35rem;margin:8px 0 10px}
-.line{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px dashed var(--line)}
-.line.save{color:var(--off)}
-.total{font-weight:600;font-size:1.1rem;border-bottom:0}
+.manual-location.on{
+  display:block;
+}
 
-label{display:block;font-weight:600;font-size:.92rem;margin:14px 0 4px}
-input,select,textarea{width:100%;padding:11px 12px;border:1.5px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink)}
-select:focus,input:focus,textarea:focus{border-color:var(--brand);outline:none}
-.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.pay{display:grid;gap:8px;margin-top:6px}
-.pay label{display:flex;align-items:flex-start;gap:12px;margin:0;padding:14px;border:1.5px solid var(--line);border-radius:12px;background:var(--surface);font-weight:500;cursor:pointer}
-.pay input{width:auto;margin-top:5px}
-.pay small{display:block;color:var(--muted);font-weight:400;margin-top:4px}
-.pay-tag{display:inline-block;background:var(--brand);color:#fff;padding:2px 8px;border-radius:6px;font-size:.75rem;font-weight:700;margin-left:6px}
-.pay-tag.upi{background:#0066cc}
-
-.cta{display:block;width:100%;text-align:center;text-decoration:none;border:0;border-radius:12px;padding:14px;font-weight:600;cursor:pointer;margin-top:12px;font-size:1rem}
-.wa{background:#1fa855;color:#fff}
-.sec{background:var(--surface);color:var(--brand);border:1.5px solid var(--brand)}
-.pri{background:var(--brand);color:var(--brand-ink)}
-
-.done{text-align:center;padding-top:24px}
-.done .big{font-size:3rem}
-.small{color:var(--muted);font-size:.9rem}
-
-.foot{background:var(--head);border-top:4px solid var(--gold);margin-top:24px;padding:20px 12px calc(110px + env(safe-area-inset-bottom,0px));text-align:center;display:none}
-.foot.active{display:block}
-.foot img{display:block;margin:0 auto 12px;width:min(500px,88%);height:auto;border-radius:8px}
-.foot p{color:#e9d9a6;font-size:.85rem;margin:4px 0}
-
-.social-section{margin:18px auto 12px;padding-top:14px;border-top:1px solid rgba(212,175,55,.35);max-width:560px}
-.social-title{color:#d4af37 !important;font-size:.95rem !important;font-weight:700;margin:0 0 12px !important}
-.social-links{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:9px}
-.social-link{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-width:108px;padding:9px 13px;border:1px solid rgba(212,175,55,.55);border-radius:999px;color:#f9e596;text-decoration:none;font-size:.82rem;font-weight:600;background:rgba(255,255,255,.03);transition:all .2s ease}
-.social-link:hover{background:rgba(212,175,55,.14);border-color:#d4af37;transform:translateY(-1px)}
-.social-icon{width:18px;height:18px;display:inline-flex;align-items:center;justify-content:center;font-size:1rem;line-height:1;font-weight:800}
-
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(4px);z-index:20;display:none;align-items:center;justify-content:center;padding:20px}
-.modal.on{display:flex}
-.modal .box{background:var(--surface);border-radius:18px;padding:26px 22px;max-width:400px;width:100%;text-align:center;box-shadow:0 12px 36px rgba(0,0,0,.35)}
-.modal .box p{color:var(--muted);margin:0 0 10px}
-.who{display:flex;justify-content:space-between;align-items:center;gap:8px}
-.modal .box .cta{margin-top:10px}
-.modal .box .cta:first-of-type{margin-top:16px}
-.link{border:0;background:none;color:var(--brand);font-weight:600;text-decoration:underline;cursor:pointer;padding:0}
-
-.loading{text-align:center;padding:30px 10px;color:var(--muted)}
-.sheet-status{font-size:.78rem;text-align:center;color:var(--muted);margin-top:8px}
-.manual-location{display:none;margin-top:8px}
-.manual-location.on{display:block}
-.hidden{display:none !important}
+.hidden{
+  display:none !important;
+}
 
 @media(max-width:520px){
-  .card{align-items:flex-start}
-  .tile{flex:0 0 90px;height:105px}
-  .row2{grid-template-columns:1fr}
-  .header-banner{max-height:180px}
-  .social-links{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%}
-  .social-link{width:100%;min-width:0;padding:9px 8px}
-  .social-link:last-child{grid-column:1 / -1;width:50%;justify-self:center}
+  .card{ align-items:flex-start; }
+  .tile{ flex:0 0 90px; height:105px; }
+  .row2{ grid-template-columns:1fr; }
+  .header-banner{ max-height:160px; }
 }
 </style>
 </head>
@@ -172,42 +862,124 @@ select:focus,input:focus,textarea:focus{border-color:var(--brand);outline:none}
 <body>
 
 <header>
-  <img class="header-banner" id="headerBanner" src="https://lh3.googleusercontent.com/d/1eIjCOH046SOz31LsdFa3OZZO-ebVQRyH" alt="SVR Food Products" onerror="this.src='https://via.placeholder.com/900x220/12100a/c8961a?text=SVR+FOOD+PRODUCTS'">
-  <button id="installAppButton" class="pwa-install" type="button" onclick="installApp()" aria-label="Install App">📲 Install App</button>
+  <img
+    class="header-banner"
+    id="headerBanner"
+    src="https://lh3.googleusercontent.com/d/1eIjCOH046SOz31LsdFa3OZZO-ebVQRyH"
+    alt="SVR Food Products – Sir Arthur Cotton Brand"
+    onerror="this.src='https://via.placeholder.com/900x220/12100a/d4af37?text=SVR+FOOD+PRODUCTS'"
+  >
+  <button
+    id="installAppButton"
+    class="pwa-install"
+    type="button"
+    onclick="installApp()"
+    aria-label="Install SVR Food Products App"
+  >
+    📲 Install App
+  </button>
 </header>
 
+<!-- =========================
+   ROLE SELECTION LANDING
+========================= -->
+<section class="role-selection" id="roleLanding">
+  <div class="top-install">
+    <button id="landingInstallButton" class="install-app-btn" type="button" onclick="installApp()">📲 Download App</button>
+  </div>
+
+  <div class="brand-intro">
+    <div class="brand-mark">SVR</div>
+    <div class="brand-name">SVR Food Products</div>
+    <div class="brand-sub">Sir Arthur Cotton</div>
+    <h1 id="landingTitle">Welcome to SVR Foods</h1>
+    <p id="landingText">Please select who you are to view the product catalog &amp; prices</p>
+  </div>
+
+  <div class="role-cards">
+    <button class="role-card" type="button" data-role="Distributor">
+      <div class="role-icon">📦</div>
+      <div class="role-card-title">Distributor</div>
+      <div class="role-card-text">Wholesale pricing, bulk fulfillment &amp; priority delivery support.</div>
+    </button>
+    <button class="role-card" type="button" data-role="Hotel">
+      <div class="role-icon">🏨</div>
+      <div class="role-card-title">Hotel / Restaurant</div>
+      <div class="role-card-text">Commercial kitchen pricing &amp; regular stock scheduling.</div>
+    </button>
+    <button class="role-card" type="button" data-role="User">
+      <div class="role-icon">🛒</div>
+      <div class="role-card-title">Retail Customer</div>
+      <div class="role-card-text">Retail packaging pricing &amp; direct household orders.</div>
+    </button>
+  </div>
+</section>
+
+<!-- =========================
+   MAIN CATALOG SECTION
+========================= -->
 <main id="mainContent">
   <div class="notice who">
-    <span><span id="orderingAsText">Ordering as</span> <b id="whoLabel"></b></span>
+    <span>
+      <span id="orderingAsText">Ordering as</span>
+      <b id="whoLabel"></b>
+    </span>
     <button class="link" id="changeWho">Change</button>
   </div>
-  <div class="notice" id="catalogNotice">Pick your products, enter your delivery address and place the order. We confirm it with you on WhatsApp.</div>
-  <div class="list" id="list"><div class="loading">Loading products...</div></div>
+
+  <div class="notice" id="catalogNotice">
+    Pick your products, enter your delivery address and place the order. We confirm it with you on WhatsApp.
+  </div>
+
+  <div class="list" id="list">
+    <div class="loading">Loading products...</div>
+  </div>
+
   <div class="sheet-status" id="sheetStatus"></div>
 </main>
 
+<!-- =========================
+   FOOTER SECTION
+========================= -->
 <footer class="foot" id="mainFoot">
-  <img id="footerBanner" src="https://lh3.googleusercontent.com/d/1TZiQlxMhoHjtSSUqiNzpokO7bumQG6w0" alt="Footer Banner" onerror="this.style.display='none'">
-  <p id="footerBrand" style="font-weight:700;font-size:1.05rem;color:#d4af37;">SVR Food Products – Sir Arthur Cotton</p>
-  <p id="footerContact">Contact: +91 89853 61991 | support@svrfoods.com</p>
-  <p id="footerAddress">Duppalapudi (V), E.G. Dist, Andhra Pradesh</p>
+  <img
+    id="footerBanner"
+    src="https://lh3.googleusercontent.com/d/1TZiQlxMhoHjtSSUqiNzpokO7bumQG6w0"
+    alt="SVR Foods Footer Banner"
+    onerror="this.style.display='none'"
+  >
+
+  <p id="footerBrand" style="font-weight:700;font-size:1.05rem;color:var(--gold);font-family:'Cinzel',serif;">
+    SVR Food Products – Sir Arthur Cotton
+  </p>
+
+  <p id="footerContact">
+    Contact: +91 89853 61991 | support@svrfoods.com
+  </p>
+
+  <p id="footerAddress">
+    Duppalapudi (V), E.G. Dist, Andhra Pradesh
+  </p>
+
   <div class="social-section">
     <p class="social-title">Follow Us</p>
     <div id="socialLinks" class="social-links"></div>
   </div>
+
   <p>© SVR Food Products</p>
 </footer>
 
-<div class="modal on" id="who">
-  <div class="box" role="dialog" aria-modal="true" aria-labelledby="whoT">
-    <h2 id="whoT" style="color:var(--ink)">Welcome to SVR Foods</h2>
-    <p id="whoDescription">Please select who you are to view the product catalog &amp; prices:</p>
-    <button class="cta pri" data-t="Distributor">I am a Distributor</button>
-    <button class="cta sec" data-t="Hotel">I am a Hotel / Restaurant</button>
-    <button class="cta sec" data-t="User">I am a Retail Customer</button>
+<!-- Hidden role modal for compatibility -->
+<div class="modal" id="who" aria-hidden="true">
+  <div class="box">
+    <h2 id="whoT">Welcome to SVR Foods</h2>
+    <p id="whoDescription">Please select who you are to view the product catalog &amp; prices</p>
   </div>
 </div>
 
+<!-- =========================
+   CART BAR
+========================= -->
 <div class="bar" id="bar">
   <button id="openCart">
     <span id="barCount">0 items</span>
@@ -215,6 +987,9 @@ select:focus,input:focus,textarea:focus{border-color:var(--brand);outline:none}
   </button>
 </div>
 
+<!-- =========================
+   CHECKOUT SHEET
+========================= -->
 <div class="sheet" id="checkout">
   <div class="in">
     <button class="back" id="closeCheckout">&larr; Back to products</button>
@@ -230,6 +1005,9 @@ select:focus,input:focus,textarea:focus{border-color:var(--brand);outline:none}
   </div>
 </div>
 
+<!-- =========================
+   CONFIRMATION SHEET
+========================= -->
 <div class="sheet" id="confirm">
   <div class="in done">
     <div class="big">✓</div>
@@ -243,7 +1021,10 @@ select:focus,input:focus,textarea:focus{border-color:var(--brand);outline:none}
 </div>
 
 <script>
-const GOOGLE_SHEET_ID = "2PACX-1vQMbE9EaKWtovXHDmjf4cPOchQOfpBJMkMUFObgBnvXsjxf6Nwuk7DidH6YWyuedYPSCh0RSoKWMACq";
+/* ============================================================
+   GOOGLE SHEET CONFIGURATION
+============================================================ */
+const GOOGLE_SHEET_ID = "1kIoecpKEUnwxZ_7sZMBDGE6KY4JHD-T5Fa8Nahc8m_4";
 
 const SHEET_NAMES = {
   SETTINGS: "SETTINGS",
@@ -255,6 +1036,9 @@ const SHEET_NAMES = {
   SOCIAL_LINKS: "SOCIAL_LINKS"
 };
 
+/* ============================================================
+   FALLBACK CONFIGURATION
+============================================================ */
 const CONFIG = {
   shopName: "SVR Food Products",
   brandName: "Sir Arthur Cotton",
@@ -270,16 +1054,28 @@ const CONFIG = {
   freeDeliveryAbove: 0,
   products: [
     { id: "idli1", name: "Idli Ravva – Sir Arthur Cotton", te: "ఇడ్లీ రవ్వ", size: "1 Kg", price: 55, mrp: 60, img: "https://lh3.googleusercontent.com/d/1EleI0ac2vmVrc7A_UbNfIAxPtq7JTDXA" },
+    { id: "idli5", name: "Idli Ravva – Sir Arthur Cotton", te: "ఇడ్లీ రవ్వ", size: "5 Kg", price: 265, mrp: 320, img: "https://lh3.googleusercontent.com/d/1tBwWFevtSKOg8OrL5YQnGE1ExqtCVKXj" },
+    { id: "idli30", name: "Idli Ravva – Bulk Bag", te: "ఇడ్లీ రవ్వ (బల్క్)", size: "30 Kg", price: 1300, mrp: 1450, img: "https://lh3.googleusercontent.com/d/1BgVtVHGvSy4Q08WTRol3FvriPEmF1S3S" },
     { id: "urad1", name: "Urad Gota – Premium", te: "మినపగుళ్ళు", size: "1 Kg", price: 135, mrp: 155, img: "https://lh3.googleusercontent.com/d/1d5mPoJXgNsHiOeZ-uMFz1w3FdbAjiCUd" },
+    { id: "urad5", name: "Urad Gota – Premium", te: "మినపగుళ్ళు", size: "5 Kg", price: 660, mrp: 750, img: "https://lh3.googleusercontent.com/d/1d5mPoJXgNsHiOeZ-uMFz1w3FdbAjiCUd" },
     { id: "vari_nuka", name: "Vari Nuka", te: "వరి నూక", size: "1 Kg", price: 30, mrp: 40, img: "https://lh3.googleusercontent.com/d/12bD7-8CLAjRa9AM-69dP1jxToCNEj1jg" }
   ]
 };
 
-let ROLE_PRICES = {};
+let ROLE_PRICES = {
+  idli1: { Distributor: 50, Hotel: 52, User: 55 },
+  idli5: { Distributor: 250, Hotel: 255, User: 265 },
+  idli30: { Distributor: 1250, Hotel: 1275, User: 1300 },
+  urad1: { Distributor: 125, Hotel: 130, User: 135 },
+  urad5: { Distributor: 630, Hotel: 645, User: 660 },
+  vari_nuka: { Distributor: 27, Hotel: 28, User: 30 }
+};
+
 let LOCATION_DATA = {
   "Andhra Pradesh": ["Alluri Sitharama Raju", "Anakapalli", "Ananthapuramu", "Annamayya", "Bapatla", "Chittoor", "Dr. B.R. Ambedkar Konaseema", "East Godavari", "Eluru", "Guntur", "Kakinada", "Krishna", "Kurnool", "Nandyal", "NTR", "Palnadu", "Prakasam", "Sri Potti Sriramulu Nellore", "Sri Sathya Sai", "Srikakulam", "Tirupati", "Visakhapatnam", "Vizianagaram", "West Godavari", "YSR Kadapa"],
   "Telangana": ["Adilabad", "Bhadradri Kothagudem", "Hyderabad", "Jagtial", "Jangaon", "Jayashankar Bhupalpally", "Jogulamba Gadwal", "Kamareddy", "Karimnagar", "Khammam", "Kumuram Bheem Asifabad", "Mahabubabad", "Mahabubnagar", "Mancherial", "Medak", "Medchal–Malkajgiri", "Mulugu", "Nagarkurnool", "Nalgonda", "Narayanpet", "Nirmal", "Nizamabad", "Peddapalli", "Rajanna Sircilla", "Rangareddy", "Sangareddy", "Siddipet", "Suryapet", "Vikarabad", "Wanaparthy", "Warangal", "Hanamkonda", "Yadadri Bhuvanagiri"]
 };
+
 let MESSAGES = {
   welcome_title: "Welcome to SVR Foods",
   welcome_text: "Please select who you are to view the product catalog & prices",
@@ -299,11 +1095,13 @@ let MESSAGES = {
   copy_details: "Copy order details",
   new_order: "Start a new order"
 };
+
 let PAYMENT_DATA = {
   Distributor: { mode: "COD", status: "Free Door Delivery", note: "Payment upon delivery" },
   Hotel: { mode: "COD", status: "Free Door Delivery", note: "Payment upon delivery" },
   User: { mode: "UPI", status: "Dispatch after Payment", note: "UPI payment required before dispatch" }
 };
+
 let SOCIAL_LINKS = [
   { platform: "WhatsApp", url: "https://wa.me/qr/US6MI2ROWBV3A1" },
   { platform: "Instagram", url: "https://www.instagram.com/svrfoodproducts?utm_source=qr&stkn=aDczbW0wdGdxa2Jh" },
@@ -314,20 +1112,47 @@ let SOCIAL_LINKS = [
 
 let state = { role: null, cart: {}, latestOrderMsg: "", sheetLoaded: false };
 
+/* ============================================================
+   GOOGLE SHEET FETCH (JSONP)
+============================================================ */
 function sheetUrl(sheetName){
-  return `https://docs.google.com/spreadsheets/d/e/${GOOGLE_SHEET_ID}/gviz/tq?sheet=${encodeURIComponent(sheetName)}&tqx=out:json`;
+  return `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/gviz/tq?sheet=${encodeURIComponent(sheetName)}&tqx=out:json`;
 }
 
-async function fetchSheet(sheetName){
-  const url = `${sheetUrl(sheetName)}&_=${Date.now()}`;
-  const response = await fetch(url, { method: "GET", cache: "no-store", credentials: "omit" });
-  if(!response.ok) throw new Error(`HTTP ${response.status}`);
-  const text = await response.text();
-  const match = text.match(/google\.visualization\.Query\.setResponse\(([\s\S]+)\);?/);
-  if(!match) throw new Error("Not GViz response");
-  const json = JSON.parse(match[1]);
-  if(json.status && json.status !== "ok") throw new Error(`Status: ${json.status}`);
-  return parseGvizTable(json);
+function fetchSheet(sheetName){
+  return new Promise((resolve, reject) => {
+    const callbackName = "svrSheetCallback_" + Date.now() + "_" + Math.floor(Math.random()*10000);
+    const script = document.createElement("script");
+
+    const timeout = setTimeout(() => {
+      delete window[callbackName];
+      script.remove();
+      reject(new Error("Timeout loading " + sheetName));
+    }, 15000);
+
+    window[callbackName] = function(data){
+      clearTimeout(timeout);
+      delete window[callbackName];
+      script.remove();
+      try {
+        resolve(parseGvizTable(data));
+      } catch(error){
+        reject(error);
+      }
+    };
+
+    const url = "https://docs.google.com/spreadsheets/d/" + GOOGLE_SHEET_ID + "/gviz/tq?sheet=" + encodeURIComponent(sheetName) + "&tqx=" + encodeURIComponent("out:json;responseHandler:" + callbackName) + "&_=" + Date.now();
+    script.src = url;
+
+    script.onerror = function(){
+      clearTimeout(timeout);
+      delete window[callbackName];
+      script.remove();
+      reject(new Error("Failed loading " + sheetName));
+    };
+
+    document.body.appendChild(script);
+  });
 }
 
 function parseGvizTable(json){
@@ -352,14 +1177,18 @@ function cleanNumber(value, fallback = 0){
 }
 function getSetting(rows, key, fallback = ""){
   const row = rows.find(r => String(r.Setting || "").trim() === key);
-  if(!row || (row.Active !== undefined && row.Active !== "" && !isTrue(row.Active))) return fallback;
+  if(!row) return fallback;
+  if(row.Active !== undefined && row.Active !== "" && !isTrue(row.Active)) return fallback;
   return String(row.Value || fallback).trim();
 }
 function escapeHtml(value){ return String(value ?? "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;"); }
 function escapeJs(value){ return String(value ?? "").replace(/\\/g,"\\\\").replace(/'/g,"\\'"); }
-
-async function loadSafe(loaderFn){
-  try { await loaderFn(); return true; } catch(e) { console.warn("Sheet section skipped:", e); return false; }
+function driveImageUrl(url){
+  if(!url) return "";
+  const value = String(url).trim();
+  const match = value.match(/\/d\/([^\/]+)/);
+  if(match && match[1]){ return "https://lh3.googleusercontent.com/d/" + match[1]; }
+  return value;
 }
 
 async function loadSettings(){
@@ -382,7 +1211,7 @@ async function loadProducts(){
   const rows = await fetchSheet(SHEET_NAMES.PRODUCTS);
   const products = rows
     .filter(row => row.ID && isTrue(row.Active))
-    .sort((a, b) => cleanNumber(a["Sort Order"]) - cleanNumber(b["Sort Order"]))
+    .sort((a,b) => cleanNumber(a["Sort Order"]) - cleanNumber(b["Sort Order"]))
     .map(row => ({
       id: String(row.ID).trim(),
       name: String(row["Product Name"] || "").trim(),
@@ -390,10 +1219,10 @@ async function loadProducts(){
       size: String(row["Pack Size"] || "").trim(),
       price: cleanNumber(row.Price),
       mrp: cleanNumber(row.MRP),
-      img: String(row["Image URL"] || "").trim()
+      img: driveImageUrl(row["Image URL"] || "")
     }))
     .filter(p => p.id && p.name);
-  if(products.length > 0) CONFIG.products = products;
+  if(products.length) CONFIG.products = products;
 }
 
 async function loadRolePrices(){
@@ -451,14 +1280,18 @@ async function loadLocations(){
 }
 
 async function loadSocialLinks(){
-  const rows = await fetchSheet(SHEET_NAMES.SOCIAL_LINKS);
-  const data = [];
-  rows.filter(row => isTrue(row.Active)).forEach(row => {
-    const platform = String(row.Platform || "").trim();
-    const url = String(row.URL || "").trim();
-    if(platform && url) data.push({ platform, url });
-  });
-  if(data.length) SOCIAL_LINKS = data;
+  try{
+    const rows = await fetchSheet(SHEET_NAMES.SOCIAL_LINKS);
+    const data = [];
+    rows.filter(row => isTrue(row.Active)).forEach(row => {
+      const platform = String(row.Platform || "").trim();
+      const url = String(row.URL || "").trim();
+      if(platform && url) data.push({ platform, url });
+    });
+    if(data.length) SOCIAL_LINKS = data;
+  }catch(error){
+    console.warn("SOCIAL_LINKS sheet could not be loaded. Using fallback links.", error);
+  }
 }
 
 function getSocialIcon(platform){
@@ -474,12 +1307,24 @@ function getSocialIcon(platform){
 function renderSocialLinks(){
   const container = document.getElementById("socialLinks");
   if(!container) return;
-  container.innerHTML = SOCIAL_LINKS.map(item => `
-    <a class="social-link" href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer" aria-label="${escapeHtml(item.platform)}">
-      <span class="social-icon">${escapeHtml(getSocialIcon(item.platform))}</span>
-      <span>${escapeHtml(item.platform)}</span>
-    </a>
-  `).join("");
+  const preferredOrder = ["whatsapp", "instagram", "facebook", "youtube", "website"];
+  const orderedLinks = [...SOCIAL_LINKS].sort((a,b) => {
+    const aIndex = preferredOrder.indexOf(String(a.platform || "").trim().toLowerCase());
+    const bIndex = preferredOrder.indexOf(String(b.platform || "").trim().toLowerCase());
+    return (aIndex === -1 ? 999 : aIndex) - (bIndex === -1 ? 999 : bIndex);
+  });
+
+  container.innerHTML = orderedLinks.map(item => {
+    const platform = String(item.platform || "").trim();
+    const url = String(item.url || "").trim();
+    if(!platform || !url) return "";
+    return `
+      <a class="social-link" href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer" aria-label="${escapeHtml(platform)}">
+        <span class="social-icon">${escapeHtml(getSocialIcon(platform))}</span>
+        <span>${escapeHtml(platform)}</span>
+      </a>
+    `;
+  }).join("");
 }
 
 function applySettings(){
@@ -494,6 +1339,11 @@ function applySettings(){
 function applyMessages(){
   document.getElementById("whoT").textContent = MESSAGES.welcome_title;
   document.getElementById("whoDescription").textContent = MESSAGES.welcome_text;
+  const landingTitle = document.getElementById("landingTitle");
+  const landingText = document.getElementById("landingText");
+  if(landingTitle) landingTitle.textContent = MESSAGES.welcome_title;
+  if(landingText) landingText.textContent = MESSAGES.welcome_text;
+
   document.getElementById("catalogNotice").textContent = MESSAGES.catalog_notice;
   document.getElementById("orderingAsText").textContent = MESSAGES.ordering_as;
   document.getElementById("changeWho").textContent = MESSAGES.change_role;
@@ -527,7 +1377,7 @@ function renderProducts(){
     return `
       <div class="card">
         <div class="tile">
-          <img src="${escapeHtml(product.img)}" alt="${escapeHtml(product.name)}" loading="lazy" onerror="this.src='https://via.placeholder.com/150/eef2e8/1b7a3a?text=SVR+Foods'">
+          <img src="${escapeHtml(product.img)}" alt="${escapeHtml(product.name)}" loading="lazy" onerror="this.src='https://via.placeholder.com/150/121411/d4af37?text=SVR+Foods'">
         </div>
         <div class="info">
           <h3>${escapeHtml(product.name)}</h3>
@@ -564,7 +1414,7 @@ function updateQty(id, delta){
 
 function updateBottomBar(){
   const bar = document.getElementById("bar");
-  const totalItems = Object.values(state.cart).reduce((sum, q) => sum + q, 0);
+  const totalItems = Object.values(state.cart).reduce((sum,q) => sum + q, 0);
   if(totalItems === 0){
     bar.classList.remove("on");
     return;
@@ -579,7 +1429,9 @@ function updateBottomBar(){
   bar.classList.add("on");
 }
 
-function getStates(){ return [...Object.keys(LOCATION_DATA), "Other State"]; }
+function getStates(){
+  return [...Object.keys(LOCATION_DATA), "Other State"];
+}
 
 function handleStateChange(){
   const stateVal = document.getElementById("custState").value;
@@ -663,7 +1515,7 @@ function renderPaymentSection(){
 
   if(payment.mode === "COD" || role === "Distributor" || role === "Hotel"){
     payContainer.innerHTML = `
-      <label style="border-color:var(--brand);background:var(--surface);">
+      <label style="border-color:var(--brand);">
         <input type="radio" name="payMethod" value="COD" checked>
         <div>
           <b style="color:var(--ink);">Cash on Delivery (COD) <span class="pay-tag">${escapeHtml(payment.status || "FREE DOOR DELIVERY")}</span></b>
@@ -673,7 +1525,7 @@ function renderPaymentSection(){
     `;
   } else {
     payContainer.innerHTML = `
-      <label style="border-color:#0066cc;background:var(--surface);">
+      <label style="border-color:#2563eb;">
         <input type="radio" name="payMethod" value="UPI" checked>
         <div>
           <b style="color:var(--ink);">WhatsApp QR / UPI Payment <span class="pay-tag upi">${escapeHtml(payment.status || "DISPATCH AFTER PAYMENT")}</span></b>
@@ -704,7 +1556,7 @@ document.getElementById("openCart").addEventListener("click", () => {
   });
   html += `
     <div class="line save"><span>డిస్కౌంట్ ఆదా (Savings)</span><b>-${CONFIG.currency}${totalSaved}</b></div>
-    <div class="line total"><span>మొత్తం బిల్లు (Grand Total)</span><span style="color:var(--brand);">${CONFIG.currency}${subtotal}</span></div>
+    <div class="line total"><span>మొత్తం బిల్లు (Grand Total)</span><span style="color:var(--gold);">${CONFIG.currency}${subtotal}</span></div>
   `;
   linesEl.innerHTML = html;
   renderCheckoutFields();
@@ -827,39 +1679,58 @@ function generateDailyOrderNumber(prefix = "SVR"){
   return `${prefix}-${dateKey}-${String(currentCount).padStart(3,"0")}`;
 }
 
-const whoModal = document.getElementById("who");
+/* ============================================================
+   ROLE SELECTION CONTROLS
+============================================================ */
 const mainContent = document.getElementById("mainContent");
 const mainFoot = document.getElementById("mainFoot");
+const roleLanding = document.getElementById("roleLanding");
 
 function selectRole(selectedRole){
   state.role = selectedRole;
   document.getElementById("whoLabel").textContent = state.role;
-  whoModal.classList.remove("on");
+  roleLanding.classList.add("hidden");
   mainContent.classList.add("active");
   mainFoot.classList.add("active");
   renderProducts();
   updateBottomBar();
+  window.scrollTo({top:0,behavior:"smooth"});
 }
 
-document.getElementById("changeWho").addEventListener("click", () => { whoModal.classList.add("on"); });
-whoModal.querySelectorAll("button[data-t]").forEach(btn => {
-  btn.addEventListener("click", e => selectRole(e.currentTarget.getAttribute("data-t")));
+roleLanding.querySelectorAll(".role-card").forEach(btn => {
+  btn.addEventListener("click", () => selectRole(btn.getAttribute("data-role")));
 });
 
+document.getElementById("changeWho").addEventListener("click", () => {
+  roleLanding.classList.remove("hidden");
+  mainContent.classList.remove("active");
+  mainFoot.classList.remove("active");
+  window.scrollTo({top:0,behavior:"smooth"});
+});
+
+/* ============================================================
+   LOAD EVERYTHING FROM GOOGLE SHEET
+============================================================ */
 async function loadGoogleSheetData(){
   const status = document.getElementById("sheetStatus");
-  status.textContent = "Connecting to Google Sheet...";
+  status.textContent = "Connecting to SVR Food Products control sheet...";
 
-  const r1 = await loadSafe(loadSettings);
-  const r2 = await loadSafe(loadProducts);
-  const r3 = await loadSafe(loadRolePrices);
-  const r4 = await loadSafe(loadPaymentDelivery);
-  const r5 = await loadSafe(loadMessages);
-  const r6 = await loadSafe(loadLocations);
-  const r7 = await loadSafe(loadSocialLinks);
+  const sectionNames = ["SETTINGS", "PRODUCTS", "ROLE_PRICES", "PAYMENT_DELIVERY", "MESSAGES", "LOCATIONS", "SOCIAL_LINKS"];
+  const loaders = [loadSettings, loadProducts, loadRolePrices, loadPaymentDelivery, loadMessages, loadLocations, loadSocialLinks];
 
-  const successCount = [r1, r2, r3, r4, r5, r6, r7].filter(Boolean).length;
-  state.sheetLoaded = (successCount === 7);
+  const results = await Promise.allSettled(loaders.map(loader => loader()));
+  const failedSections = [];
+  let successCount = 0;
+
+  results.forEach((result, index) => {
+    if(result.status === "fulfilled"){
+      successCount += 1;
+    } else {
+      failedSections.push(sectionNames[index]);
+    }
+  });
+
+  state.sheetLoaded = (successCount === sectionNames.length);
 
   applySettings();
   applyMessages();
@@ -867,12 +1738,17 @@ async function loadGoogleSheetData(){
   renderSocialLinks();
 
   if(state.sheetLoaded){
-    status.textContent = `✓ Connected to Google Sheet (7/7 sections)`;
+    status.textContent = `✓ Website connected to Google Sheet (${successCount}/7 sections loaded)`;
+  } else if(successCount > 0){
+    status.textContent = `⚠ Google Sheet partially connected (${successCount}/7). Failed: ${failedSections.join(", ")}`;
   } else {
-    status.textContent = `✓ App running (Connected ${successCount}/7 sections, using defaults for missing parts)`;
+    status.textContent = "⚠ Google Sheet could not be loaded. Using website backup data.";
   }
 }
 
+/* ============================================================
+   STARTUP EXECUTION
+============================================================ */
 applySettings();
 applyMessages();
 renderProducts();
@@ -880,35 +1756,42 @@ updateBottomBar();
 renderSocialLinks();
 loadGoogleSheetData();
 
+/* =========================================================
+   SERVICE WORKER / PWA / INSTALL APP
+========================================================= */
 let deferredInstallPrompt = null;
 const installAppButton = document.getElementById("installAppButton");
 
-if("serviceWorker" in navigator){
-  window.addEventListener("load", () => {
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", function() {
     navigator.serviceWorker.register("./sw.js").catch(error => console.warn("Service Worker registration failed:", error));
   });
 }
 
-window.addEventListener("beforeinstallprompt", event => {
+window.addEventListener("beforeinstallprompt", function(event) {
   event.preventDefault();
   deferredInstallPrompt = event;
-  if(installAppButton) installAppButton.classList.add("show");
+  if (installAppButton) installAppButton.classList.add("show");
+  const landingInstallButton = document.getElementById("landingInstallButton");
+  if(landingInstallButton) landingInstallButton.style.display = "inline-flex";
 });
 
-async function installApp(){
-  if(!deferredInstallPrompt){
+async function installApp() {
+  if (!deferredInstallPrompt) {
     alert("Install App option is not available yet. Please open this website in Chrome and try again.");
     return;
   }
   deferredInstallPrompt.prompt();
   const result = await deferredInstallPrompt.userChoice;
   deferredInstallPrompt = null;
-  if(installAppButton) installAppButton.classList.remove("show");
+  if (installAppButton) installAppButton.classList.remove("show");
+  const landingInstallButton = document.getElementById("landingInstallButton");
+  if(landingInstallButton) landingInstallButton.style.display = "none";
 }
 
-window.addEventListener("appinstalled", () => {
+window.addEventListener("appinstalled", function() {
   deferredInstallPrompt = null;
-  if(installAppButton) installAppButton.classList.remove("show");
+  if (installAppButton) installAppButton.classList.remove("show");
 });
 </script>
 
